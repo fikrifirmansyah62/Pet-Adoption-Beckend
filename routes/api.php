@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\Category\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\Category\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('users', [UserController::class, 'show']);
+    Route::get('logout', [UserController::class, 'logout']);
+});
+
 Route::apiResource('categories', CategoryController::class);
+
+Route::post('users', [UserController::class, 'store']);
+Route::post('users/login', [UserController::class, 'login']);
